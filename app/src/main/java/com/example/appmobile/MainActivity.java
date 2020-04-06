@@ -23,7 +23,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     TextView tvBienvenida;
-    EditText etUsuario, etContrasenna;
+    EditText etUsuario, etContrasenna, etEmail;
     Button btnRegistrar;
 
 
@@ -35,18 +35,24 @@ public class MainActivity extends AppCompatActivity {
         tvBienvenida = (TextView) findViewById(R.id.tvBienvenida);
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         etContrasenna = (EditText) findViewById(R.id.etContrasenna);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ejecutarServicio("https://endogamous-smile.000webhostapp.com/appRegister.php");
-                tvBienvenida.setText("BIENVENIDO/A " + etUsuario.getText());
+                //Campos todos completos no vacios para evitar nulos y errores en la base de datos.
+                if ( etUsuario.getText().toString()=="" && etEmail.getText().toString()=="" && etContrasenna.getText().toString()=="") {
+                    ejecutarServicio("https://endogamous-smile.000webhostapp.com/appRegister.php");
+                    tvBienvenida.setText("BIENVENIDO/A -" + etUsuario.getText()+"-");
+                }else{
+                    Toast.makeText(getApplicationContext(),"FALTAN CAMPOS POR COMPLETAR",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
     }
-
+//Este metodo establece conexion con el servidor donde esta el fichero PHP que agrega a la base de datos y recoge los valores de los campos.
     public void ejecutarServicio(String URL){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -61,15 +67,20 @@ public class MainActivity extends AppCompatActivity {
         }){
             @Override
             protected Map<String, String>  getParams() throws AuthFailureError{
+
+
                 Map<String, String> parametros = new HashMap<String,String>();
-                parametros.put("Usuario", etUsuario.getText().toString());
-                parametros.put("Contraseña", etContrasenna.getText().toString());
+
+                    parametros.put("Usuario", etUsuario.getText().toString());
+                    parametros.put("Email", etEmail.getText().toString());
+                    parametros.put("Contraseña", etContrasenna.getText().toString());
+
                 return parametros;
             }
         };
 
-        RequestQueue RequestQueue = Volley.newRequestQueue(this);
-        RequestQueue.add(stringRequest);
+            RequestQueue RequestQueue = Volley.newRequestQueue(this);
+            RequestQueue.add(stringRequest);
 
     }
 
