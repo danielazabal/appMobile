@@ -40,12 +40,9 @@ public class MainActivity extends AppCompatActivity {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ejecutarServicio("https://endogamous-smile.000webhostapp.com/appRegister.php");
             }
-        }){
-
-        }
-
+        });
 
     }
 
