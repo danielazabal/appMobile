@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvBienvenida = (TextView) findViewById(R.id.textBienvenida);
+        tvBienvenida = (TextView) findViewById(R.id.tvBienvenida);
         etUsuario = (EditText) findViewById(R.id.etUsuario);
         etContrasenna = (EditText) findViewById(R.id.etContrasenna);
         btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ejecutarServicio("https://endogamous-smile.000webhostapp.com/appRegister.php");
+                tvBienvenida.setText("BIENVENIDO/A " + etUsuario.getText());
             }
         });
 
